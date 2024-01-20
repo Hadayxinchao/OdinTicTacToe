@@ -45,7 +45,7 @@ module TicTacToe
     end
 
     def make_move(player)
-      position = player.select_postion
+      position = player.select_position
       puts "#{player} selects #{player.marker} position #{position}"
       @board[position] = player.marker
       switch_player unless game_over?
@@ -90,7 +90,7 @@ module TicTacToe
   end
 
   class Human < Player
-    def select_postion
+    def select_position
       @game.print_board
       loop do
         print "Select your #{marker} position: "
@@ -112,7 +112,7 @@ module TicTacToe
       markers
     end
 
-    def select_postion
+    def select_position
       opponent_marker = @game.opponent.marker
 
       winning_or_blocking_position = look_for_winning_or_blocking_position(opponent_marker)
@@ -169,7 +169,7 @@ puts "Welcome player!"
 
 ready = false
 until ready
-  puts "Select your mode:", "1. PvP (Friend Battle)", "2. PvE (Vs Computer)"
+  puts "Select your mode:", "1. PvP (Friend Battle)", "2. PvE (Vs Computer)", "Other. Exit"
   selection = gets.chomp.to_i
   if selection == 1
     Game.new(Human, Human).play
@@ -188,6 +188,8 @@ until ready
     else
       ready = true
     end
+  else
+    ready = true
   end
 end
 
