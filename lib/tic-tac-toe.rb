@@ -8,9 +8,8 @@ module TicTacToe
       @board = Array.new(BOARD_SIZE, EMPTY_CELL)
       @players = [player_1.new(self, "X"), player_2.new(self, "O")]
       @current_player = @players[0]
-      puts "#{@current_player} goes first"
     end
-    attr_reader :board
+    attr_reader :board, :current_player, :players
     
     def play
       result = nil
@@ -25,7 +24,6 @@ module TicTacToe
     end
     
     def self.replay?
-      puts "\nWanna Play Again? (\"Yes\" for continue, \"No\" for stop)"
       answer = gets.chomp.downcase
       return true if answer == "yes"
       nil
@@ -46,7 +44,6 @@ module TicTacToe
 
     def make_move(player)
       position = player.select_position
-      puts "#{player} selects #{player.marker} position #{position}"
       @board[position] = player.marker
       switch_player unless game_over?
     end
@@ -69,7 +66,6 @@ module TicTacToe
       nil
     end
 
-    private
     def win?
       LINES.any? do |line|
         @board.values_at(*line).uniq.length == 1 && @board[line[0]] != EMPTY_CELL
@@ -91,9 +87,7 @@ module TicTacToe
 
   class Human < Player
     def select_position
-      @game.print_board
       loop do
-        print "Select your #{marker} position: "
         position = gets.chomp.to_i
         return position if @game.free_positions.include?(position)
         puts "Position #{position} is not available. Try again."
@@ -162,37 +156,37 @@ module TicTacToe
   end
 end
 
-include TicTacToe
+# include TicTacToe
 
-system "clear"
-puts "Welcome player!"
+# system "clear"
+# puts "Welcome player!"
 
-ready = false
-until ready
-  puts "Select your mode:", "1. PvP (Friend Battle)", "2. PvE (Vs Computer)", "Other. Exit"
-  selection = gets.chomp.to_i
-  if selection == 1
-    Game.new(Human, Human).play
-    if Game.replay?
-      self.initialize
-      system "clear"
-    else
-      ready = true
-    end
-  elsif selection == 2
-    players_with_human = [Human, Computer].shuffle
-    Game.new(*players_with_human).play
-    if Game.replay?
-      self.initialize
-      system "clear"
-    else
-      ready = true
-    end
-  else
-    ready = true
-  end
-end
+# ready = false
+# until ready
+#   puts "Select your mode:", "1. PvP (Friend Battle)", "2. PvE (Vs Computer)", "Other. Exit"
+#   selection = gets.chomp.to_i
+#   if selection == 1
+#     Game.new(Human, Human).play
+#     if Game.replay?
+#       self.initialize
+#       system "clear"
+#     else
+#       ready = true
+#     end
+#   elsif selection == 2
+#     players_with_human = [Human, Computer].shuffle
+#     Game.new(*players_with_human).play
+#     if Game.replay?
+#       self.initialize
+#       system "clear"
+#     else
+#       ready = true
+#     end
+#   else
+#     ready = true
+#   end
+# end
 
-puts "\n-----------------------------------"
-puts "Goodbye, have a good day with Odin!"
-puts "\n-----------------------------------"
+# puts "\n-----------------------------------"
+# puts "Goodbye, have a good day with Odin!"
+# puts "\n-----------------------------------"
